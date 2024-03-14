@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "523284756336",
+    "firebase_url": "https://tybcaproject-f7c63-default-rtdb.firebaseio.com",
+    "project_id": "tybcaproject-f7c63",
+    "storage_bucket": "tybcaproject-f7c63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523284756336:android:ae74c233fedbc04201c1b5",
+        "android_client_info": {
+          "package_name": "com.chirag.tybcaproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpfiVlnWD7eVUD0MIXG--g8hmwfdwft1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

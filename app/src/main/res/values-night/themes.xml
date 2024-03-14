@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NurseryOnline" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/Green</item>
+        <item name="colorPrimaryDark">@color/Black</item>
+        <item name="colorAccent">@color/darkgray</item>
+    </style>
+</resources>
