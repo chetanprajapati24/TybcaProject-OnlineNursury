@@ -63,6 +63,12 @@ public class HomeActivity extends BaseActivity {
     private void setVariable() {
         binding.cartBtn.setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this, CartActivity.class)));
+        binding.viewallitem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, ListPlantActivity.class));
+            }
+        });
 
         binding.searchBtn.setOnClickListener(v -> {
             String text =binding.searchEdt.getText().toString();

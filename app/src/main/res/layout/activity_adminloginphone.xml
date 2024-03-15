@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/number"
                 android:inputType="number"
+                android:textColor="@color/black"
                 android:layout_marginLeft="8dp"/>
         </LinearLayout>
         <Button
