@@ -60,7 +60,7 @@ public class DetailActivity extends BaseActivity {
         binding.backBtn.setOnClickListener(v -> finish());{
             Glide.with(DetailActivity.this)
                     .load(object.getImagePath())
-                    .into(binding.pic);
+                    .into(binding.img);
 
             binding.priceTxt.setText("₹"+object.getPrice());
             binding.titleTxt.setText(object.getTitle());

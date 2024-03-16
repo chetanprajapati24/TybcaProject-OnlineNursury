@@ -154,7 +154,6 @@ public class HomeActivity extends BaseActivity {
 
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -163,29 +162,28 @@ public class HomeActivity extends BaseActivity {
 
     }
     private void initTime() {
-        DatabaseReference myRef=database.getReference("Time");
-        ArrayList<Time> list=new ArrayList<>();
+        DatabaseReference myRef = database.getReference("Time");
+        ArrayList<Time> list = new ArrayList<>();
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Time.class));
                     }
-                    ArrayAdapter<Location>adapter=new ArrayAdapter<>(HomeActivity.this ,R.layout.sp_item);
+                    ArrayAdapter<Time> adapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_spinner_item, list);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    binding.Timesp.setAdapter(adapter);
-
+                    binding.Timesp.setAdapter(adapter); // Make sure binding.Timesp refers to your Spinner
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle error
             }
         });
-
     }
+
     private void initPrice() {
         DatabaseReference myRef=database.getReference("Price");
         ArrayList<Price> list=new ArrayList<>();
@@ -208,9 +206,6 @@ public class HomeActivity extends BaseActivity {
 
             }
         });
-
-
-
 
     }
 }

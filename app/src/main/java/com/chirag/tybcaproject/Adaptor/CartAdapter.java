@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -62,16 +63,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder>{
         holder.blueView.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
         holder.blueView.setClipToOutline(true);
 
-        Glide.with(holder.itemView.getContext())
-             .load(listItemSelected.get(position).getImagePath()).transform(new CenterCrop(), new RoundedCorners(30))
-            .into(holder.pic);
+        if (listItemSelected.get(position).getImagePath() != null) {
+            Glide.with(holder.itemView.getContext())
+                    .load(listItemSelected.get(position).getImagePath())
+                    .transform(new CenterCrop(), new RoundedCorners(30))
+                    .into(holder.pic);
+        } else {
+            // Handle null image path
+            // For example, you can set a placeholder image or hide the ImageView
+            holder.pic.setImageDrawable(null); // Clear the ImageView
+        }
 
 
         holder.title.setText(listItemSelected.get(position).getTitle());
         holder.feeEachitem.setText("₹" + listItemSelected.get(position).getPrice());
-        holder.totalEachitem.setText(listItemSelected.get(position)
-                + "    ₹" + (listItemSelected.get(position).getNumberInCart() * listItemSelected.get(position).getPrice()));
-
+        holder.totalEachitem.setText("₹" + (listItemSelected.get(position).getNumberInCart() * listItemSelected.get(position).getPrice()));
         holder.num.setText(String.valueOf(listItemSelected.get(position).getNumberInCart()));
 
         //holder.orderbtn.setOnClickListener(v -> Toast.makeText(holder.itemView.getContext(), "Oder Successful", Toast.LENGTH_SHORT).show());
