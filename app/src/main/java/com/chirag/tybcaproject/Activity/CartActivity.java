@@ -71,16 +71,15 @@ public class CartActivity extends BaseActivity {
         binding.backBtn.setOnClickListener(v -> finish());
           }
           private void calculateCart(){
-        double percentageTax = 0.02;;
-        double delivery = 10;;
-        tax=Math.round(managmentCart.getTotalFee()*percentageTax*100.0)/100.0;
-        double total=Math.round((managmentCart.getTotalFee()+tax+delivery)*100.0)/100.0;
-        double itemTotal =Math.round(managmentCart.getTotalFee()*100)/100;
+              double percentageTax = 0.02;
+              double delivery = 10;
+              tax = percentageTax * managmentCart.getTotalFee();
+              double total = managmentCart.getTotalFee() + tax + delivery;double itemTotal = Math.floor(managmentCart.getTotalFee() * 10) / 10;
 
-        binding.totalFeeTxt.setText("$"+itemTotal);
-        binding.taxTxt.setText("$"+tax);
-        binding.deliveryTxt.setText("$"+delivery);
-        binding.totalTxt.setText("$"+total);
+        binding.totalFeeTxt.setText("₹"+itemTotal);
+        binding.taxTxt.setText("₹"+tax);
+        binding.deliveryTxt.setText("₹"+delivery);
+        binding.totalTxt.setText("₹"+total);
 
 
           }

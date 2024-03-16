@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,16 +63,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder>{
         holder.blueView.setClipToOutline(true);
 
         Glide.with(holder.itemView.getContext())
-                .load(listItemSelected.get(position).getImagePath())
-                .transform(new CenterCrop(), new RoundedCorners(30))
-                .into(holder.pic);
+             .load(listItemSelected.get(position).getImagePath()).transform(new CenterCrop(), new RoundedCorners(30))
+            .into(holder.pic);
+
 
         holder.title.setText(listItemSelected.get(position).getTitle());
-        holder.feeEachitem.setText("$" + listItemSelected.get(position).getPrice());
-        holder.totalEachitem.setText(listItemSelected.get(position).getNumberInCart()
-                + "* $" + (listItemSelected.get(position).getNumberInCart() * listItemSelected.get(position).getPrice()));
+        holder.feeEachitem.setText("₹" + listItemSelected.get(position).getPrice());
+        holder.totalEachitem.setText(listItemSelected.get(position)
+                + "    ₹" + (listItemSelected.get(position).getNumberInCart() * listItemSelected.get(position).getPrice()));
 
         holder.num.setText(String.valueOf(listItemSelected.get(position).getNumberInCart()));
+
+        //holder.orderbtn.setOnClickListener(v -> Toast.makeText(holder.itemView.getContext(), "Oder Successful", Toast.LENGTH_SHORT).show());
+
 
         holder.plusitem.setOnClickListener(v ->
                 managmentCart.plusNumberItem(listItemSelected, position, () -> {
@@ -95,7 +99,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder>{
         TextView title,feeEachitem,plusitem,minusitem;
         ImageView pic;
         TextView totalEachitem ,num;
-        BlurView blueView;
+        BlurView blueView , orderbtn;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             title =itemView.findViewById(R.id.titleTxt);
@@ -106,6 +110,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder>{
             totalEachitem=itemView.findViewById(R.id.priceTxt);
             num=itemView.findViewById(R.id.numTxt);
             blueView=itemView.findViewById(R.id.blueView);
+            orderbtn=itemView.findViewById(R.id.orderBtn);
         }
     }
 }
