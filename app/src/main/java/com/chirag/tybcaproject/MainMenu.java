@@ -1,7 +1,5 @@
 package com.chirag.tybcaproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -69,7 +67,7 @@ public class MainMenu extends BaseActivity {
         signinemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signemail = new Intent(MainMenu.this,Adminlogin.class);
+                Intent signemail = new Intent(MainMenu.this, Userlogin.class);
                 startActivity(signemail);
                 finish();
             }
@@ -78,7 +76,7 @@ public class MainMenu extends BaseActivity {
         signinphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signphone = new Intent(MainMenu.this,Adminloginphone.class);
+                Intent signphone = new Intent(MainMenu.this, Userloginphone.class);
                 startActivity(signphone);
                 finish();
             }
@@ -87,7 +85,7 @@ public class MainMenu extends BaseActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signup = new Intent(MainMenu.this,AdminRegistration.class);
+                Intent signup = new Intent(MainMenu.this, UserRegistration.class);
                 startActivity(signup);
                 finish();
             }

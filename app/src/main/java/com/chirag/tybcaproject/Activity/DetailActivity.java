@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chirag.tybcaproject.Domain.Foods;
 import com.chirag.tybcaproject.Helper.ManagmentCart;
+import com.chirag.tybcaproject.R;
 import com.chirag.tybcaproject.databinding.ActivityDetailBinding;
 
 import eightbitlab.com.blurview.RenderScriptBlur;
@@ -19,6 +22,8 @@ import eightbitlab.com.blurview.RenderScriptBlur;
 public class DetailActivity extends BaseActivity {
     private ActivityDetailBinding binding;
     private Foods object;
+    private ImageView imageViewFavorite;
+    private boolean isFavorite = false;
     private  int num=1;
     private ManagmentCart managmentCart;
 
@@ -29,6 +34,23 @@ public class DetailActivity extends BaseActivity {
         binding =ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         managmentCart = new ManagmentCart(this);
+
+        imageViewFavorite = findViewById(R.id.fav);
+
+        imageViewFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFavorite) {
+                    imageViewFavorite.setImageResource(R.drawable.favorite_white);
+                    isFavorite = false;
+                    Toast.makeText(DetailActivity.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                } else {
+                    imageViewFavorite.setImageResource(R.drawable.favorite_fill);
+                    isFavorite = true;
+                    Toast.makeText(DetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
      getBundleExtra();
      setVatiable();

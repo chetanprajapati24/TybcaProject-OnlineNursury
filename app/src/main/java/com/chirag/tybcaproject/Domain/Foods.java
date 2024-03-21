@@ -5,14 +5,13 @@ import java.io.Serializable;
 public class Foods implements Serializable {
     private int CategoryId;
     private String Description;
-    private  boolean BestFood;
+    private  boolean BestFood =true;
     private int Id;
     private int LocationId;
     private double Price;
     private String ImagePath;
     private int PriceId;
-    private double star;
-    private int TimeId;
+    private double Star;
     private String Title;
     private int numberInCart;
 
@@ -88,20 +87,13 @@ public class Foods implements Serializable {
     }
 
     public double getStar() {
-        return star;
+        return Star;
     }
 
     public void setStar(double star) {
-        this.star = star;
+        this.Star = star;
     }
 
-    public int getTimeId() {
-        return TimeId;
-    }
-
-    public void setTimeId(int timeId) {
-        TimeId = timeId;
-    }
 
     public String getTitle() {
         return Title;

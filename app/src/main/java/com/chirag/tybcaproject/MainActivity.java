@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.animate().alpha(0f).setDuration(0);
         textView.animate().alpha(0f).setDuration(0);
 
-        imageView.animate().alpha(1f).setDuration(1000).setListener(new AnimatorListenerAdapter() {
+        imageView.animate().alpha(1f).setDuration(500).setListener(new AnimatorListenerAdapter() {
             /**
              * {@inheritDoc}
              *
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onAnimationEnd(Animator animation) {
-                textView.animate().alpha(1f).setDuration(800);
+                textView.animate().alpha(1f).setDuration(300);
 
             }
         });
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            },2000);
+            },1000);
 
     }
 }

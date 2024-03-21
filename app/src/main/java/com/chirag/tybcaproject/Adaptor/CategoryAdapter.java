@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -70,7 +69,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewho
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(context, ListPlantActivity.class);
-                intent.putExtra("CategoryId",item.get(position).getId());
+                intent.putExtra("categoryId",item.get(position).getId());
                 intent.putExtra("CategoryName",item.get(position).getName());
                 context.startActivity(intent);
 

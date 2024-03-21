@@ -14,7 +14,7 @@
         <item>Shipper 2</item>
     </string-array>
 
-    <string-array name="DishName">
+    <string-array name="PlantName">
         <item name="">Tamato</item>
         <item>Sun Flower</item>
         <item>Rose</item>

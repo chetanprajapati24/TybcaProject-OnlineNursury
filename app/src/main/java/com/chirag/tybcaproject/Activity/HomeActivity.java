@@ -1,23 +1,20 @@
 package com.chirag.tybcaproject.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chirag.tybcaproject.Adaptor.BestFoodAdapter;
 import com.chirag.tybcaproject.Adaptor.CategoryAdapter;
-import com.chirag.tybcaproject.Adminlogin;
 import com.chirag.tybcaproject.Domain.Category;
 import com.chirag.tybcaproject.Domain.Foods;
 import com.chirag.tybcaproject.Domain.Location;
 import com.chirag.tybcaproject.Domain.Price;
-import com.chirag.tybcaproject.Domain.Time;
 import com.chirag.tybcaproject.MainMenu;
 import com.chirag.tybcaproject.R;
 import com.chirag.tybcaproject.databinding.ActivityHomeBinding;
@@ -40,7 +37,7 @@ public class HomeActivity extends BaseActivity {
         binding=ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initLocation();
-        initTime();
+    //    initTime();
         initPrice();
         initBestPlant();
         initCategory();
@@ -59,6 +56,7 @@ public class HomeActivity extends BaseActivity {
         });
 
     }
+
 
     private void setVariable() {
         binding.cartBtn.setOnClickListener(v ->
@@ -79,24 +77,36 @@ public class HomeActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        binding.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, ProfileUpdateActivity.class));
+            }
+        });
     }
+
+
     private void initCategory() {
-        DatabaseReference myref=database.getReference("Category");
+        DatabaseReference myref = database.getReference("Category");
         binding.progressBarCategory.setVisibility(View.VISIBLE);
-        ArrayList<Category> list=new ArrayList<>();
+        ArrayList<Category> list = new ArrayList<>();
 
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue:snapshot.getChildren()){
-                        list.add(issue.getValue(Category.class));
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
+                        // Retrieve each category and add it to the list
+                        Category category = issue.getValue(Category.class);
+                        list.add(category);
                     }
-                    if (list.size()>0){
-                        binding.categoryView.setLayoutManager(new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.HORIZONTAL,false));
-                        RecyclerView.Adapter adapterCategory =new CategoryAdapter(list);
-                        binding.categoryView.setAdapter(adapterCategory);
 
+                    if (!list.isEmpty()) {
+                        // Set up RecyclerView with LinearLayoutManager
+                        binding.categoryView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                        // Initialize and set the adapter
+                        RecyclerView.Adapter adapterCategory = new CategoryAdapter(list);
+                        binding.categoryView.setAdapter(adapterCategory);
                     }
                     binding.progressBarCategory.setVisibility(View.GONE);
                 }
@@ -104,16 +114,17 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle database error
             }
         });
     }
+
 
     private void initBestPlant() {
         DatabaseReference myref=database.getReference("Foods");
         binding.progressBarBestPlant.setVisibility(View.VISIBLE);
         ArrayList<Foods> list=new ArrayList<>();
-        Query query=myref.orderByChild("BestFood").equalTo(true);
+        Query query=myref.orderByChild("bestFood").equalTo(true);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -139,41 +150,48 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initLocation() {
-        DatabaseReference myRef=database.getReference("Location");
-        ArrayList<Location> list=new ArrayList<>();
+        DatabaseReference myRef = database.getReference("Location");
+        ArrayList<Location> list = new ArrayList<>();
+        ArrayAdapter<Location> adapter = new ArrayAdapter<>(HomeActivity.this, R.layout.sp_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.locationsp.setAdapter(adapter);
+
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    list.clear(); // Clear the previous list
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Location.class));
                     }
-                    ArrayAdapter<Location> adapter=new ArrayAdapter<>(HomeActivity.this ,R.layout.sp_item);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    binding.locationsp.setAdapter(adapter);
-
+                    adapter.notifyDataSetChanged(); // Update the adapter with the new list
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
-    private void initTime() {
-        DatabaseReference myRef = database.getReference("Time");
-        ArrayList<Time> list = new ArrayList<>();
+
+
+    private void initPrice() {
+        DatabaseReference myRef = database.getReference("price");
+        ArrayList<Price> list = new ArrayList<>();
+        ArrayAdapter<Price> adapter = new ArrayAdapter<>(HomeActivity.this, R.layout.sp_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.Pricesp.setAdapter(adapter); // Make sure binding.Pricesp refers to your Spinner
+
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    list.clear(); // Clear the previous list
                     for (DataSnapshot issue : snapshot.getChildren()) {
-                        list.add(issue.getValue(Time.class));
+                        list.add(issue.getValue(Price.class));
                     }
-                    ArrayAdapter<Time> adapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_spinner_item, list);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    binding.Timesp.setAdapter(adapter); // Make sure binding.Timesp refers to your Spinner
+                    adapter.notifyDataSetChanged(); // Update the adapter with the new list
                 }
             }
 
@@ -182,30 +200,5 @@ public class HomeActivity extends BaseActivity {
                 // Handle error
             }
         });
-    }
-
-    private void initPrice() {
-        DatabaseReference myRef=database.getReference("Price");
-        ArrayList<Price> list=new ArrayList<>();
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue: snapshot.getChildren()){
-                        list.add(issue.getValue(Price.class));
-                    }
-                    ArrayAdapter<Location>adapter=new ArrayAdapter<>(HomeActivity.this ,R.layout.sp_item);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    binding.Pricesp.setAdapter(adapter);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 }

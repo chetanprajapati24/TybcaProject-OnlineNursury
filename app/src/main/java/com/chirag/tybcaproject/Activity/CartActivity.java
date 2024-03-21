@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chirag.tybcaproject.Adaptor.CartAdapter;
 import com.chirag.tybcaproject.Helper.ManagmentCart;
 import com.chirag.tybcaproject.databinding.ActivityCartBinding;
-import com.chirag.tybcaproject.databinding.ActivityMainBinding;
 
 import eightbitlab.com.blurview.RenderScriptBlur;
 public class CartActivity extends BaseActivity {
@@ -33,6 +33,12 @@ public class CartActivity extends BaseActivity {
         calculateCart();
         initList();
         setBlurEffect();
+        binding.orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                placeOrder();
+            }
+        });
     }
     private void setBlurEffect() {
         float radius=10f;
@@ -83,4 +89,23 @@ public class CartActivity extends BaseActivity {
 
 
           }
+    private void placeOrder() {
+        // Perform actions to place the order, such as sending order details to a server or initiating a payment process
+
+        // For example, you can show a confirmation message to the user
+        showToast("Your order has been placed successfully!");
+
+        // After placing the order, you may want to clear the cart or perform other actions
+        managmentCart.clearCart();
+
+        // Update the UI to reflect the changes (e.g., update the cart list)
+        initList();
+
+        // Recalculate the cart totals
+        calculateCart();
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
 }

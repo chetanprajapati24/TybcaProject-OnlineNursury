@@ -1,12 +1,14 @@
 package com.chirag.tybcaproject.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.chirag.tybcaproject.Adaptor.ListFoodAdapter;
 import com.chirag.tybcaproject.Domain.Foods;
 import com.chirag.tybcaproject.databinding.ActivityListPlantBinding;
@@ -45,7 +47,7 @@ public class ListPlantActivity extends BaseActivity {
 
     private void getIntentExtra() {
 
-        categoryId = getIntent().getIntExtra("CategoryId", 0);
+        categoryId = getIntent().getIntExtra("categoryId", 0);
         categoryName = getIntent().getStringExtra("CategoryName");
         searchText = getIntent().getStringExtra("text");
         isSearch = getIntent().getBooleanExtra("isSerach", false);
@@ -59,11 +61,13 @@ public class ListPlantActivity extends BaseActivity {
         binding.progressBar.setVisibility(View.VISIBLE);
         ArrayList<Foods> list = new ArrayList<>();
         Query query;
-        if (isSearch) {
-            query = myref.orderByChild("Title").startAt(searchText).endAt(searchText + '\uf8ff');
-
+        if (isSearch && searchText != null && !searchText.isEmpty()) {
+            // Perform a partial search based on title
+            query = myref.orderByChild("title")
+                    .startAt(searchText.toLowerCase())
+                    .endAt(searchText.toLowerCase() + "\uf8ff");
         } else {
-            query = myref.orderByChild("CategoryId").equalTo(categoryId);
+            query = myref.orderByChild("categoryId").equalTo(categoryId);
         }
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,12 +82,20 @@ public class ListPlantActivity extends BaseActivity {
                         binding.foodListView.setAdapter(adapterListPlant);
                     }
                     binding.progressBar.setVisibility(View.GONE);
+                } else {
+                    // Handle case where no matching items were found
+                    // Show a message or perform any other action
+                    // For example, you can display a toast message
+                    Toast.makeText(ListPlantActivity.this, "No matching items found", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle database error
+                Log.e("ListPlantActivity", "Database error: " + error.getMessage());
+                binding.progressBar.setVisibility(View.GONE);
             }
         });
     }
