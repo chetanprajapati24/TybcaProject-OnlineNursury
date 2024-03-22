@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
-public class ListPlantActivity extends BaseActivity {
+public class ListPlantActivity extends AppCompatActivity {
 
     private ActivityListPlantBinding binding;
     private RecyclerView.Adapter adapterListPlant;
@@ -50,24 +50,24 @@ public class ListPlantActivity extends BaseActivity {
         categoryId = getIntent().getIntExtra("categoryId", 0);
         categoryName = getIntent().getStringExtra("CategoryName");
         searchText = getIntent().getStringExtra("text");
-        isSearch = getIntent().getBooleanExtra("isSerach", false);
+        isSearch = getIntent().getBooleanExtra("isSearch", false);
 
         binding.titleTxt.setText(categoryName);
         binding.backBtn.setOnClickListener(v -> finish());
     }
 
     private void initList() {
-        DatabaseReference myref = database.getReference("Foods");
+        DatabaseReference myRef = database.getReference("Foods");
         binding.progressBar.setVisibility(View.VISIBLE);
         ArrayList<Foods> list = new ArrayList<>();
         Query query;
         if (isSearch && searchText != null && !searchText.isEmpty()) {
             // Perform a partial search based on title
-            query = myref.orderByChild("title")
+            query = myRef.orderByChild("title")
                     .startAt(searchText.toLowerCase())
                     .endAt(searchText.toLowerCase() + "\uf8ff");
         } else {
-            query = myref.orderByChild("categoryId").equalTo(categoryId);
+            query = myRef.orderByChild("categoryId").equalTo(categoryId);
         }
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -76,28 +76,28 @@ public class ListPlantActivity extends BaseActivity {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Foods.class));
                     }
-                    if (list.size() > 0) {
-                        binding.foodListView.setLayoutManager(new GridLayoutManager(ListPlantActivity.this, 2));
+                    if (!list.isEmpty()) {
+                        binding.foodListView.setLayoutManager(new GridLayoutManager(ListPlantActivity.this, 1));
                         adapterListPlant = new ListFoodAdapter(list);
                         binding.foodListView.setAdapter(adapterListPlant);
+                    } else {
+                        // Handle case where no matching items were found
+                        Toast.makeText(ListPlantActivity.this, "No matching items found", Toast.LENGTH_SHORT).show();
                     }
-                    binding.progressBar.setVisibility(View.GONE);
                 } else {
-                    // Handle case where no matching items were found
-                    // Show a message or perform any other action
-                    // For example, you can display a toast message
-                    Toast.makeText(ListPlantActivity.this, "No matching items found", Toast.LENGTH_SHORT).show();
-                    binding.progressBar.setVisibility(View.GONE);
+                    // Handle case where no data exists
+                    Toast.makeText(ListPlantActivity.this, "No data found", Toast.LENGTH_SHORT).show();
                 }
+                binding.progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle database error
                 Log.e("ListPlantActivity", "Database error: " + error.getMessage());
+                Toast.makeText(ListPlantActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 binding.progressBar.setVisibility(View.GONE);
             }
         });
     }
 }
-

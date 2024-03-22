@@ -2,14 +2,14 @@ package com.chirag.tybcaproject.Activity;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.chirag.tybcaproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +38,7 @@ public class ProfileUpdateActivity extends AppCompatActivity {
         // Check if userId is not null before creating a child reference
         if (userId != null) {
             // Get a reference to the user's node in the database
-            mUserDatabaseReference = mFirebaseDatabase.getReference("users").child(userId);
+            mUserDatabaseReference = mFirebaseDatabase.getReference("Users").child(userId);
         } else {
             // Handle the case where userId is null (e.g., log an error or display a message)
             Log.e(TAG, "User ID is null");
