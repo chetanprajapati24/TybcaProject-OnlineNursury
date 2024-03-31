@@ -1,82 +1,158 @@
 package com.chirag.tybcaproject.Activity;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chirag.tybcaproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class ProfileUpdateActivity extends AppCompatActivity {
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mUserDatabaseReference;
-    private String userId;
+    String[] Maharashtra = {"Mumbai", "Pune", "Nashik"};
+    String[] Gujarat = {"Valsad", "Navsari", "Surat"};
+
+    EditText firstName, lastName, address;
+    Spinner stateSpinner, citySpinner;
+    Button updateButton;
+    DatabaseReference customerReference;
+    String state, city, userEmail;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_update);
 
-        // Get the user's ID from the intent
-        userId = getIntent().getStringExtra("userId");
+        firstName = findViewById(R.id.fnamee);
+        lastName = findViewById(R.id.lnamee);
+        address = findViewById(R.id.address);
+        stateSpinner = findViewById(R.id.statee);
+        citySpinner = findViewById(R.id.cityy);
+        updateButton = findViewById(R.id.update);
 
-        // Initialize Firebase Realtime Database
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-
-        // Check if userId is not null before creating a child reference
-        if (userId != null) {
-            // Get a reference to the user's node in the database
-            mUserDatabaseReference = mFirebaseDatabase.getReference("Users").child(userId);
-        } else {
-            // Handle the case where userId is null (e.g., log an error or display a message)
-            Log.e(TAG, "User ID is null");
-        }
-
-        // Initialize UI elements
-        final TextInputLayout firstNameInput = findViewById(R.id.Firstname);
-        final TextInputLayout lastNameInput = findViewById(R.id.Lastname);
-
-        final TextInputLayout houseNoInput = findViewById(R.id.houseNo);
-        final Button updateProfileButton = findViewById(R.id.UpdateProfile);
-
-        // Set a click listener for the update profile button
-        updateProfileButton.setOnClickListener(new View.OnClickListener() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        customerReference = FirebaseDatabase.getInstance().getReference("Customer").child(userId);
+        customerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                String firstName = String.valueOf(firstNameInput.getEditText().getText());
-                String lastName = String.valueOf(lastNameInput.getEditText().getText());
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Customer customer = dataSnapshot.getValue(Customer.class);
+                if (customer != null) {
+                    firstName.setText(customer.getFirstName());
+                    lastName.setText(customer.getLastName());
+                    address.setText(customer.getHouseNo());
+                    state = customer.getState();
+                    city = customer.getCity();
+                    setUpStateSpinner();
+                }
+            }
 
-                String houseNo = String.valueOf(houseNoInput.getEditText().getText());
-                              // Create a new user object with the updated information
-                User updatedUser = new User(firstName, lastName,  houseNo);
-
-                // Update the user's node in the database
-                mUserDatabaseReference.setValue(updatedUser)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    // Show a toast message to confirm the update
-                                    Toast.makeText(ProfileUpdateActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // Show a toast message if the update fails
-                                    Toast.makeText(ProfileUpdateActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
             }
         });
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                customerReference = FirebaseDatabase.getInstance().getReference("Customer").child(userId);
+                customerReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Customer customer = dataSnapshot.getValue(Customer.class);
+                        if (customer != null) {
+                            userEmail = customer.getEmail();
+                            String fName = firstName.getText().toString().trim();
+                            String lName = lastName.getText().toString().trim();
+                            String userAddress = address.getText().toString().trim();
+
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("FirstName", fName);
+                            hashMap.put("LastName", lName);
+                            hashMap.put("City", city);
+                          //  hashMap.put("Email", userEmail);
+
+                         //   hashMap.put("MobileNo", customer.getMobileNo());
+                            hashMap.put("HouseNo", userAddress);
+                            hashMap.put("State", state);
+                            customerReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(ProfileUpdateActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(ProfileUpdateActivity.this, "Failed to Update Profile", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void setUpStateSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.State, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stateSpinner.setAdapter(adapter);
+        int statePosition = adapter.getPosition(state);
+        stateSpinner.setSelection(statePosition);
+        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedState = parent.getItemAtPosition(position).toString();
+                if (selectedState.equals("Maharashtra")) {
+                    ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(ProfileUpdateActivity.this, android.R.layout.simple_spinner_item, Maharashtra);
+                    cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    citySpinner.setAdapter(cityAdapter);
+                } else if (selectedState.equals("Gujarat")) {
+                    ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(ProfileUpdateActivity.this, android.R.layout.simple_spinner_item, Gujarat);
+                    cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    citySpinner.setAdapter(cityAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+        int cityPosition = getPosition(citySpinner, city);
+        citySpinner.setSelection(cityPosition);
+    }
+
+    private int getPosition(Spinner spinner, String value) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(value)) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

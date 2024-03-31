@@ -1,5 +1,5 @@
 package com.chirag.tybcaproject.Activity;
-public class User {
+public class Customer {
     private String firstName;
     private String lastName;
     private String email;
@@ -10,11 +10,11 @@ public class User {
     private String city;
     private String pincode;
 
-    public User(String firstName, String lastName, String email) {
+    public Customer() {
         // Default constructor required for Firebase
     }
 
-    public User(String firstName, String lastName, String email, String mobileNo, String houseNo, String area, String state, String city, String pincode) {
+    public Customer(String firstName, String lastName, String email, String mobileNo, String houseNo, String area, String state, String city, String pincode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

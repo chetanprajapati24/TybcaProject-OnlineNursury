@@ -81,7 +81,7 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.viewho
     }
 
     public class viewholder extends RecyclerView.ViewHolder {
-        TextView titleTxt,priceTxt,starTxt,timeTxt;
+        TextView titleTxt,priceTxt,starTxt;
         ImageView pic;
         BlurView blurView;
         public viewholder(@NonNull View itemView) {
@@ -89,7 +89,6 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.viewho
             titleTxt=itemView.findViewById(R.id.titleTxt);
             priceTxt=itemView.findViewById(R.id.priceTxt);
             starTxt=itemView.findViewById(R.id.starTxt);
-       //     timeTxt=itemView.findViewById(R.id.timeTxt);
             pic=itemView.findViewById(R.id.img);
             blurView=itemView.findViewById(R.id.blueView);
         }

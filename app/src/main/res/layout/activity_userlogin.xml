@@ -152,17 +152,6 @@
             android:text="Phone"
             android:textColor="#FFFF" />
 
-        <Button
-            android:id="@+id/upload"
-            android:layout_width="105dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/red"
-            android:drawableLeft="@drawable/ic_upload"
-            android:padding="10dp"
-            android:text="Admin"
-            android:textColor="#FFFF" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

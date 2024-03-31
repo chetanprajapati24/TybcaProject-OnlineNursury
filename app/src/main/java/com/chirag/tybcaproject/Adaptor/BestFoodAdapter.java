@@ -47,7 +47,6 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.viewho
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
         holder.titleTxt.setText(item.get(position).getTitle());
         holder.priceTxt.setText("₹"+item.get(position).getPrice());
-      //holder.timeTxt.setText(item.get(position).getTimeId()+"min");
         holder.starTxt.setText(""+item.get(position).getStar());
 
         float radius=10f;
@@ -81,7 +80,7 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.viewho
     }
 
     public class viewholder extends RecyclerView.ViewHolder {
-        TextView titleTxt,priceTxt,starTxt,timeTxt;
+        TextView titleTxt,priceTxt,starTxt;
         ImageView pic;
         BlurView blurView;
         public viewholder(@NonNull View itemView) {
@@ -89,7 +88,7 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.viewho
             titleTxt=itemView.findViewById(R.id.descriptionTxt);
             priceTxt=itemView.findViewById(R.id.priceTxt);
             starTxt=itemView.findViewById(R.id.starTxt);
-        //    timeTxt=itemView.findViewById(R.id.timeTxt);
+
             pic=itemView.findViewById(R.id.img);
             blurView=itemView.findViewById(R.id.blueView);
         }

@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 
 import com.chirag.tybcaproject.Activity.BaseActivity;
 import com.chirag.tybcaproject.Activity.HomeActivity;
-import com.chirag.tybcaproject.AdminSide.Upload_Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,7 +34,6 @@ public class Userlogin extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlogin);
         back =(ImageButton) findViewById(R.id.backBtn);
-        upload=(Button) findViewById(R.id.upload);
 
 
 
@@ -121,12 +119,6 @@ public class Userlogin extends BaseActivity {
                     finish();
                 }
             });
-                upload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(Userlogin.this, Upload_Activity.class));
-                    }
-                });
         }catch (Exception e){
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }

@@ -69,15 +69,16 @@ public class MainActivity extends AppCompatActivity {
 
                         databaseReference = FirebaseDatabase.getInstance().getReference("User").child(FirebaseAuth.getInstance().getUid() + "/Role");
                         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String role = snapshot.getValue(String.class);
-                                if (role.equals("Admin")) {
-                                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                                    finish();
 
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String role = snapshot.getValue(String.class);
+                                    if (role != null && role.equals("Admin")) { // Check if role is not null before comparing
+                                        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                                        finish();
+                                    }
                                 }
-                            }
+
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {

@@ -115,7 +115,7 @@ public class UserRegistration extends BaseActivity {
             }
         });
 
-        databaseReference = firebaseDatabase.getInstance().getReference("Admin");
+        databaseReference = firebaseDatabase.getInstance().getReference("Customer");
         FAuth = FirebaseAuth.getInstance();
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +165,7 @@ public class UserRegistration extends BaseActivity {
                                         hashMap1.put("Confirm Password",confpassword);
                                         hashMap1.put("House",house);
 
-                                        firebaseDatabase.getInstance().getReference("Admin")
+                                        firebaseDatabase.getInstance().getReference("Customer")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .setValue(hashMap1).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override

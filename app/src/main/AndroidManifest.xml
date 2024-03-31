@@ -22,13 +22,18 @@
         android:theme="@style/Theme.NurseryOnline"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.SearchResultsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ViewAllActivity"
+            android:exported="false" />
+        <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <activity android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".AdminSide.Upload_Activity"
             android:exported="false" />
@@ -74,7 +79,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
