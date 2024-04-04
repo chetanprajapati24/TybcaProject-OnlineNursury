@@ -117,7 +117,7 @@ public class CartActivity extends BaseActivity {
 
     private void uploadOrderToFirebase() {
         // Assuming you have a Firebase database reference
-        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference().child("orders");
+        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference().child("Orders");
 
         // Assuming you have a list of selected items
         // Loop through the list and upload each item to Firebase

@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="205dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/food"
+            tools:src="@drawable/img3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

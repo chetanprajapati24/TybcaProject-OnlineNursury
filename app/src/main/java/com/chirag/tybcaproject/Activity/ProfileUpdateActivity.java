@@ -53,14 +53,31 @@ public class ProfileUpdateActivity extends AppCompatActivity {
         customerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Customer customer = dataSnapshot.getValue(Customer.class);
-                if (customer != null) {
-                    firstName.setText(customer.getFirstName());
-                    lastName.setText(customer.getLastName());
-                    address.setText(customer.getHouseNo());
-                    state = customer.getState();
-                    city = customer.getCity();
+                if (dataSnapshot.exists()) {
+                    // Retrieve data from Firebase with specific keys
+                    String fName = dataSnapshot.child("First Name").getValue(String.class);
+                    String lName = dataSnapshot.child("Last Name").getValue(String.class);
+                    String userAddress = dataSnapshot.child("HouseNo").getValue(String.class);
+                    String userState = dataSnapshot.child("State").getValue(String.class);
+                    String userCity = dataSnapshot.child("City").getValue(String.class);
+
+                    // Set retrieved data to respective EditText fields
+                    firstName.setText(fName);
+                    lastName.setText(lName);
+                    address.setText(userAddress);
+
+                    // Set up state and city spinners based on retrieved data
+                    state = userState;
+                    city = userCity;
                     setUpStateSpinner();
+
+                    // Select the retrieved state in the spinner
+                    int statePosition = getPosition(stateSpinner, state);
+                    stateSpinner.setSelection(statePosition);
+
+                    // Select the retrieved city in the spinner
+                    int cityPosition = getPosition(citySpinner, city);
+                    citySpinner.setSelection(cityPosition);
                 }
             }
 
@@ -84,14 +101,17 @@ public class ProfileUpdateActivity extends AppCompatActivity {
                             String fName = firstName.getText().toString().trim();
                             String lName = lastName.getText().toString().trim();
                             String userAddress = address.getText().toString().trim();
+                            // Update state and city variables with selected values from spinners
+                            state = stateSpinner.getSelectedItem().toString();
+                            city = citySpinner.getSelectedItem().toString();
 
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("FirstName", fName);
-                            hashMap.put("LastName", lName);
+                            hashMap.put("First Name", fName);
+                            hashMap.put("Last Name", lName);
                             hashMap.put("City", city);
-                          //  hashMap.put("Email", userEmail);
+                           hashMap.put("Email", userEmail);
 
-                         //   hashMap.put("MobileNo", customer.getMobileNo());
+                           hashMap.put("Mobile No", customer.getMobileNo());
                             hashMap.put("HouseNo", userAddress);
                             hashMap.put("State", state);
                             customerReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -121,8 +141,6 @@ public class ProfileUpdateActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.State, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateSpinner.setAdapter(adapter);
-        int statePosition = adapter.getPosition(state);
-        stateSpinner.setSelection(statePosition);
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -143,8 +161,6 @@ public class ProfileUpdateActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-        int cityPosition = getPosition(citySpinner, city);
-        citySpinner.setSelection(cityPosition);
     }
 
     private int getPosition(Spinner spinner, String value) {

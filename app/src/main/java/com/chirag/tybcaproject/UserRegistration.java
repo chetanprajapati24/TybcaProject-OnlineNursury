@@ -163,7 +163,7 @@ public class UserRegistration extends BaseActivity {
                                         hashMap1.put("Pincode",Pincode);
                                         hashMap1.put("State",statee);
                                         hashMap1.put("Confirm Password",confpassword);
-                                        hashMap1.put("House",house);
+                                        hashMap1.put("HouseNo",house);
 
                                         firebaseDatabase.getInstance().getReference("Customer")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
