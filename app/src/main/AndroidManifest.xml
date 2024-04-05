@@ -8,6 +8,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -22,6 +23,9 @@
         android:theme="@style/Theme.NurseryOnline"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.FavoriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SearchResultsActivity"
             android:exported="false" />
         <activity
@@ -34,9 +38,6 @@
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity
-            android:name=".AdminSide.Upload_Activity"
-            android:exported="false" />
         <activity
             android:name=".Activity.ProfileUpdateActivity"
             android:exported="false" />

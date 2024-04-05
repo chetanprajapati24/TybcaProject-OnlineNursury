@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.chirag.tybcaproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class ProfileUpdateActivity extends AppCompatActivity {
+public class ProfileUpdateActivity extends BaseActivity {
 
     String[] Maharashtra = {"Mumbai", "Pune", "Nashik"};
     String[] Gujarat = {"Valsad", "Navsari", "Surat"};

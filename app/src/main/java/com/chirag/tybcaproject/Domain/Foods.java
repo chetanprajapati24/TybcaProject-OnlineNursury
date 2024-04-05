@@ -3,6 +3,8 @@ package com.chirag.tybcaproject.Domain;
 import java.io.Serializable;
 
 public class Foods implements Serializable {
+
+    private String key;
     private int CategoryId;
     private String Description;
     private  boolean BestFood =true;
@@ -21,6 +23,26 @@ public class Foods implements Serializable {
     }
 
     public Foods() {
+    }
+    public Foods(String key, int categoryId, String description, boolean bestFood, int id, int locationId, double price, String imagePath, int priceId, double star, String title, int numberInCart) {
+        this.key = key;
+        CategoryId = categoryId;
+        Description = description;
+        BestFood = bestFood;
+        Id = id;
+        LocationId = locationId;
+        Price = price;
+        ImagePath = imagePath;
+        PriceId = priceId;
+        Star = star;
+        Title = title;
+        this.numberInCart = numberInCart;
+    }
+    public String getKey() {
+        return key;
+    }
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public int getCategoryId() {

@@ -70,6 +70,8 @@ dependencies {
     //implementation 'com.github.canhub:android-image-cropper:3.5.0'
     //implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.1'
     implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'com.itextpdf:itext7-core:7.2.1'
+
 
 
 

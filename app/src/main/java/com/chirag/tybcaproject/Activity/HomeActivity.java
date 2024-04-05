@@ -90,6 +90,12 @@ public class HomeActivity extends BaseActivity {
                 startActivity(new Intent(HomeActivity.this, ViewAllActivity.class));
             }
         });
+        binding.fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, FavoriteActivity.class));
+            }
+        });
 
         binding.searchBtn.setOnClickListener(v -> {
             String text = binding.searchEdt.getText().toString().trim();
